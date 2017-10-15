@@ -1,22 +1,19 @@
-
 class Purchase:
     def __init__(
-            self, street, city, zipcode, state, beds,
+            self, city, zipcode, state, beds,
             baths, sq__ft, home_type, sale_date, price,
-            lattitude, longtitude):
-        self.longituse = longtitude
-        self.latitude = lattitude
+            latitude, longitude):
+        self.longitude = longitude
+        self.latitude = latitude
         self.price = price
-        self.sale_data = sale_date
+        self.sale_date = sale_date
         self.type = home_type
         self.sq__ft = sq__ft
         self.baths = baths
         self.beds = beds
         self.state = state
-        self.zip =zipcode
+        self.zip = zipcode
         self.city = city
-        self.street = street
-
 
     @staticmethod
     def create_from_dict(lookup):
@@ -28,8 +25,7 @@ class Purchase:
             int(lookup['baths']),
             int(lookup['sq__ft']),
             lookup['type'],
-            lookup['sale_data'],
+            lookup['sale_date'],
             float(lookup['price']),
             float(lookup['latitude']),
-            float(lookup['logtitude'])
-        )
+            float(lookup['longitude']))
