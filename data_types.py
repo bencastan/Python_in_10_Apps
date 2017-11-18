@@ -15,6 +15,7 @@ class Purchase:
         self.zip = zipcode
         self.city = city
 
+
     @staticmethod
     def create_from_dict(lookup):
         return Purchase(

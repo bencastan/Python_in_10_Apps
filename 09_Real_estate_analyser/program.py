@@ -1,10 +1,16 @@
 import csv
 import os
+try:
+    import statistics
+except:
+    import statistics_standin_for_py2 as statistics
 
 
 # Due to the way I have constructed the file hierachy I had to move the data_types file to
 # the top level to enable this import, this kinda sucks but it is how imports and relative imports work
 # in python. Sigh!!!
+
+
 from data_types import Purchase
 
 
@@ -29,8 +35,8 @@ def get_data_file():
 
 
 def load_file(filename):
-    with open(filename, 'r', encoding='utf-8') as fin:
-
+    # with open(filename, 'r', encoding='utf-8') as fin:
+    with open(filename, 'r') as fin:
         reader = csv.DictReader(fin)
         purchases = []
         for row in reader:
@@ -47,7 +53,6 @@ def load_file(filename):
         # header = fin.readline().strip()
         # print('Found header' + header)
 
-
 # def load_file_basic(filename):
 #     with open(filename, 'r', encoding='utf-8') as fin:
 #         header = fin.readline().strip()
@@ -63,25 +68,41 @@ def load_file(filename):
 
 #    return []
 
-def get_price(p):
-    return p.price
+# def get_price(p):
+#    return p.price
 
 
 def query_data(data): #list[Purchase]):
     # if data was sorted by price:
-    data.sort(key=get_price)
+    # data.sort(key=get_price)
+    data.sort(key=lambda p: p.price)
 
     # most expensive house
     high_purchase = data[-1]
-    print(high_purchase.price)
+    print("The most expensive house is ${:,} wiith {} beds and {} baths".format(
+        high_purchase.price, high_purchase.beds, high_purchase.baths))
 
     # least expensive house
     low_purchase = data[0]
-    print(low_purchase.price)
+    print("The least expensive house is ${:,} with {} beds and {} baths".format(
+        low_purchase.price, low_purchase.beds, low_purchase.baths))
 
     # average price of a house
+    prices = []
+    for pur in data:
+        prices.append(pur.price)
+
+    ave_price = statistics.mean(prices)
+    print("The avaerage home price is ${:}".format(int(ave_price)))
+
     # price of 2 bedroom houses
-    pass
+    prices = []
+    for pur in data:
+        if pur.beds == 2:
+            prices.append(pur.price)
+
+    ave_price = statistics.mean(prices)
+    print("The avaerage 2 bedroom home price is ${:}".format(int(ave_price)))
 
 
 if __name__ == '__main__':
